@@ -7,7 +7,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} src/main.cpp
-    include/user.hpp
-    src/user.cpp
-    include/offer.hpp
+                            src/offer.cpp
+                            src/util.cpp
+                            src/user.cpp
+                            src/include/user.hpp
+                            src/include/notification.hpp
+                            src/include/visit.hpp
+                            src/include/util.hpp
+                            src/include/searched_route.hpp
+                            src/include/request.hpp
+                            src/include/request.hpp
+                            src/include/search_timestamp.hpp
+                            src/include/problem.hpp
+                            src/include/offer.hpp
+                            src/include/state.hpp
+                            src/include/review.hpp
+
 )
