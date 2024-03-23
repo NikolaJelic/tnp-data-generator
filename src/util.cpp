@@ -1,43 +1,90 @@
 #include "include/util.hpp"
+#include <chrono>
+#include <iostream>
+#include <random>
+#include <sstream>
+#include <vector>
 
 namespace util {
-constexpr std::string
-timepoint_to_string(const std::chrono::system_clock::time_point &timepoint);
-    std::string timepoint_to_date(const std::chrono::system_clock::time_point &timepoint) {
-        // Convert time_point to time_t
-        std::time_t time = std::chrono::system_clock::to_time_t(timepoint);
-
-        // Format the time_t value into a string compatible with PostgreSQL
-        std::stringstream ss;
-        ss << std::put_time(std::gmtime(&time), "%Y-%m-%d %H:%M:%S");
-        return ss.str();
-    }
-
-    std::chrono::system_clock::time_point date_to_timepoint(const std::string &date) {
-        std::istringstream iss(date);
-
-        int year, month, day, hour, minute, second;
-        char delimiter;
-        iss >> year >> delimiter >> month >> delimiter >> day >> delimiter >> hour >> delimiter >> minute >> delimiter >> second;
-
-        // Create a tm structure in UTC time
-        std::tm tm_time = {};
-        tm_time.tm_year = year - 1900; // Years since 1900
-        tm_time.tm_mon = month - 1;     // Months since January (0-based)
-        tm_time.tm_mday = day;          // Day of the month
-        tm_time.tm_hour = hour;         // Hours since midnight
-        tm_time.tm_min = minute;        // Minutes after the hour
-        tm_time.tm_sec = second;        // Seconds after the minute
-
-        // Convert tm structure to time_point
-        std::time_t time = std::mktime(&tm_time);
-        return std::chrono::system_clock::from_time_t(time);
-    }
-
-constexpr std::chrono::system_clock::time_point
-get_random_timepoint_hours(std::size_t start_h, std::size_t end_h,
-                           std::vector<std::pair<int, float>> const &weights);
-constexpr std::string get_random_date(std::string const &start_date,
-                                      std::string const &end_date);
-
+std::string
+timepoint_to_string(const std::chrono::system_clock::time_point &timepoint) {
+  std::stringstream ss;
+  ss << timepoint;
+  return ss.str();
 }
+
+std::chrono::year_month_day string_to_date(std::string const &date_string) {
+  std::istringstream iss(date_string);
+
+  int year, month, day;
+  char delimiter;
+
+  iss >> year >> delimiter >> month >> delimiter >> day;
+
+  std::chrono::year_month_day ymd{
+      std::chrono::year{year},
+      std::chrono::month{static_cast<unsigned int>(month)},
+      std::chrono::day{static_cast<unsigned int>(day)}};
+  return ymd;
+}
+
+std::string
+timepoint_to_date(const std::chrono::system_clock::time_point &timepoint) {
+  const auto ymd = std::chrono::floor<std::chrono::days>(timepoint);
+  return std::format("{:%Y-%m-%d}", ymd);
+}
+
+std::chrono::system_clock::time_point
+date_to_timepoint(const std::string &date) {
+  std::istringstream iss(date);
+
+  std::size_t year;
+  std::size_t month;
+  std::size_t day;
+  char delimiter;
+  iss >> year >> delimiter >> month >> delimiter >> day;
+
+  std::chrono::year_month_day ymd{
+      std::chrono::year{static_cast<int>(year)},
+      std::chrono::month{static_cast<unsigned int>(month)},
+      std::chrono::day{static_cast<unsigned int>(day)}};
+
+  auto sys_days = std::chrono::sys_days{ymd};
+  return std::chrono::system_clock::from_time_t(
+      std::chrono::system_clock::to_time_t(sys_days));
+}
+
+
+
+std::string get_random_date(std::string const &month_str,
+                            std::vector<double> weights) {}
+
+std::string get_random_time(std::vector<double> weights) {
+  double total_weight = 0.0;
+  for (double w : weights) {
+    total_weight += w;
+  }
+  if (std::abs(total_weight - 1.0) > 1e-6) {
+    throw std::invalid_argument("Weights must sum up to 1.0");
+  }
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+
+  std::discrete_distribution<int> hour_dist(weights.begin(), weights.end());
+
+  int random_hour = hour_dist(gen);
+
+  std::uniform_int_distribution<int> minute_dist(0, 59);
+  std::uniform_int_distribution<int> second_dist(0, 59);
+
+  int random_minute = minute_dist(gen);
+  int random_second = second_dist(gen);
+
+  std::string formatted_time = std::to_string(random_hour) + ":" +
+                               std::to_string(random_minute) + ":" +
+                               std::to_string(random_second);
+  return formatted_time;
+}
+
+} // namespace util

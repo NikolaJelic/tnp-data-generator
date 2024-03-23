@@ -5,19 +5,27 @@
 #include <vector>
 
 namespace util {
-constexpr std::string
+std::string
 timepoint_to_string(const std::chrono::system_clock::time_point &timepoint);
 
-constexpr std::chrono::system_clock::time_point
-get_random_timepoint_hours(std::size_t start_h, std::size_t end_h,
-                           std::vector<std::pair<int, float>> const &weights);
+std::string get_random_time(std::vector<double> weights);
 
-constexpr std::string get_random_date(std::string const &start_date,
-                                      std::string const &end_date);
+std::string get_random_date(std::string const &start_date_str,
+                            std::string const &end_date_str,
+                            std::vector<double> weights);
 std::string
 timepoint_to_date(const std::chrono::system_clock::time_point &timepoint);
 
 std::chrono::system_clock::time_point
 date_to_timepoint(std::string const &date);
 
+std::chrono::system_clock::time_point
+date_to_timepoint(const std::string &date);
+
+
+
+const  std::vector<double> hour_weights = {0.05, 0.04, 0.02, 0.02, 0.01, 0.01, 0,    0.03, 0.03,
+         0.04, 0.04, 0.06, 0.06, 0.07, 0.06, 0.04, 0.06, 0.03,
+         0.04, 0.05, 0.06, 0.05, 0.04, 0.04, 0.05
+        };
 } // namespace util
