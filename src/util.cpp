@@ -1,20 +1,14 @@
 #include "include/util.hpp"
-#include <algorithm>
-#include <chrono>
-#include <iostream>
-#include <random>
-#include <sstream>
-#include <vector>
 
-namespace util {
-std::string
-timepoint_to_string(const std::chrono::system_clock::time_point &timepoint) {
+std::string Util::timepoint_to_string(
+    const std::chrono::system_clock::time_point &timepoint) {
   std::stringstream ss;
   ss << timepoint;
   return ss.str();
 }
 
-std::chrono::year_month_day string_to_date(std::string const &date_string) {
+std::chrono::year_month_day
+Util::string_to_date(std::string const &date_string) {
   std::istringstream iss(date_string);
 
   int year, month, day;
@@ -29,14 +23,14 @@ std::chrono::year_month_day string_to_date(std::string const &date_string) {
   return ymd;
 }
 
-std::string
-timepoint_to_date(const std::chrono::system_clock::time_point &timepoint) {
+std::string Util::timepoint_to_date(
+    const std::chrono::system_clock::time_point &timepoint) {
   const auto ymd = std::chrono::floor<std::chrono::days>(timepoint);
   return std::format("{:%Y-%m-%d}", ymd);
 }
 
 std::chrono::system_clock::time_point
-date_to_timepoint(const std::string &date) {
+Util::date_to_timepoint(const std::string &date) {
   std::istringstream iss(date);
 
   std::size_t year;
@@ -55,8 +49,8 @@ date_to_timepoint(const std::string &date) {
       std::chrono::system_clock::to_time_t(sys_days));
 }
 
-std::string get_random_date(int start_year, int end_year,
-                            std::vector<double> weights) {
+std::string Util::get_random_date(int start_year, int end_year,
+                                  std::vector<double> weights) {
 
   auto distributed_weights = distribute_weights(weights, end_year - start_year);
 
@@ -67,8 +61,6 @@ std::string get_random_date(int start_year, int end_year,
   if (std::abs(total_weight - 1.0) > 1e-6) {
     throw std::invalid_argument("Weights must sum up to 1.0");
   }
-  std::random_device rd;
-  std::mt19937 gen(rd());
 
   std::discrete_distribution<int> year_dist(distributed_weights.begin(),
                                             distributed_weights.end());
@@ -98,7 +90,7 @@ std::string get_random_date(int start_year, int end_year,
   return ss.str();
 }
 
-std::string get_random_time(std::vector<double> weights) {
+std::string Util::get_random_time(std::vector<double> weights) {
   double total_weight = 0.0;
   for (double w : weights) {
     total_weight += w;
@@ -106,9 +98,6 @@ std::string get_random_time(std::vector<double> weights) {
   if (std::abs(total_weight - 1.0) > 1e-6) {
     throw std::invalid_argument("Weights must sum up to 1.0");
   }
-
-  std::random_device rd;
-  std::mt19937 gen(rd());
 
   std::discrete_distribution<int> hour_dist(weights.begin(), weights.end());
 
@@ -121,15 +110,16 @@ std::string get_random_time(std::vector<double> weights) {
   int random_second = second_dist(gen);
 
   std::ostringstream formatted_time_stream;
-formatted_time_stream << std::setw(2) << std::setfill('0') << random_hour << ":"
-                      << std::setw(2) << std::setfill('0') << random_minute << ":"
-                      << std::setw(2) << std::setfill('0') << random_second;
+  formatted_time_stream << std::setw(2) << std::setfill('0') << random_hour
+                        << ":" << std::setw(2) << std::setfill('0')
+                        << random_minute << ":" << std::setw(2)
+                        << std::setfill('0') << random_second;
 
   return formatted_time_stream.str();
 }
 
-std::vector<double> distribute_weights(std::vector<double> weights,
-                                       int result_count) {
+std::vector<double> Util::distribute_weights(std::vector<double> weights,
+                                             int result_count) {
   double delta_weight = (double)result_count / weights.size();
   std::vector<double> normalized_weights{};
   for (auto w : weights) {
@@ -141,4 +131,7 @@ std::vector<double> distribute_weights(std::vector<double> weights,
   return normalized_weights;
 }
 
-} // namespace util
+int Util::get_random_int(int min, int max) {
+  std::uniform_int_distribution<int> dist(min, max);
+  return dist(gen);
+}
