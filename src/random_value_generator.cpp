@@ -35,7 +35,7 @@ std::string RandomValueGenerator::get_random_date(int start_year, int end_year,
   day_dist = std::uniform_int_distribution<int>{1, days_in_month};
 
   day = day_dist(gen);
-  auto time = get_random_time(hour_weights);
+  auto time = get_random_time(vars::hour_weights);
   return std::format("{:04d}-{:02d}-{:02d} {}", year, month, day, time);
 }
 
@@ -86,11 +86,12 @@ int RandomValueGenerator::get_random_int(int min, int max) {
   return dist(gen);
 }
 
-std::string RandomValueGenerator::get_random_name() {
+std::string RandomValueGenerator::get_random_name(bool is_male) {
+  auto &names = is_male ? vars::male_names : vars::female_names;
   return names[get_random_int(0, names.size() - 1)];
 }
 std::string RandomValueGenerator::get_random_surname() {
-  return surnames[get_random_int(0, surnames.size() - 1)];
+  return vars::surnames[get_random_int(0, vars::surnames.size() - 1)];
 }
 std::string RandomValueGenerator::get_random_email(std::string const &name,
                                                    std::string const &surname) {
@@ -102,7 +103,20 @@ std::string RandomValueGenerator::get_random_password() {
   std::stringstream ss;
   int length = get_random_int(9, 16);
   for (int i = 0; i < length; ++i) {
-    ss << alphanum.at(get_random_int(0, alphanum.length() - 1));
+    ss << vars::alphanum.at(get_random_int(0, vars::alphanum.length() - 1));
+  }
+  return ss.str();
+}
+
+std::string RandomValueGenerator::get_random_city() {
+  return vars::cities[get_random_int(0, vars::cities.size() - 1)];
+}
+
+std::string RandomValueGenerator::get_random_phone_number() {
+  std::stringstream ss;
+  ss << "06" << get_random_int(2, 6);
+  for (int i = 0; i < 6; ++i) {
+    ss << get_random_int(0, 9);
   }
   return ss.str();
 }
