@@ -10,6 +10,7 @@ add_executable(${PROJECT_NAME} src/main.cpp
                             src/offer.cpp
                             src/util.cpp
                             src/user.cpp
+                            src/random_value_generator.cpp
                             src/include/user.hpp
                             src/include/notification.hpp
                             src/include/visit.hpp
@@ -22,5 +23,7 @@ add_executable(${PROJECT_NAME} src/main.cpp
                             src/include/offer.hpp
                             src/include/state.hpp
                             src/include/review.hpp
+                            src/include/random_value_generator.hpp
+
 
 )
