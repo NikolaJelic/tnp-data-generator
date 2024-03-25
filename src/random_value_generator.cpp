@@ -124,11 +124,11 @@ std::string RandomValueGenerator::get_random_phone_number() {
 
 std::string_view RandomValueGenerator::get_image_male() {
   std::string_view image =
-      vars::male_images[get_random_int(0, vars::male_images.size())];
+      vars::male_images[get_random_int(0, vars::male_images.size() - 1)];
   return image;
 }
 std::string_view RandomValueGenerator::get_image_female() {
   std::string_view image =
-      vars::female_images[get_random_int(0, vars::female_images.size())];
+      vars::female_images[get_random_int(0, vars::female_images.size() - 1)];
   return image;
 }
