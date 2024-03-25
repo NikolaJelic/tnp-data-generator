@@ -25,6 +25,8 @@ public:
   std::string get_random_password();
   std::string get_random_city();
   std::string get_random_phone_number();
+  std::string_view get_image_male();
+  std::string_view get_image_female();
 
 private:
   std::mt19937 gen;

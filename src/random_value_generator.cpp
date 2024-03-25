@@ -1,5 +1,6 @@
 #include "include/random_value_generator.hpp"
 #include <format>
+#include <string_view>
 
 std::string RandomValueGenerator::get_random_date(int start_year, int end_year,
                                                   std::vector<double> weights) {
@@ -119,4 +120,15 @@ std::string RandomValueGenerator::get_random_phone_number() {
     ss << get_random_int(0, 9);
   }
   return ss.str();
+}
+
+std::string_view RandomValueGenerator::get_image_male() {
+  std::string_view image =
+      vars::male_images[get_random_int(0, vars::male_images.size())];
+  return image;
+}
+std::string_view RandomValueGenerator::get_image_female() {
+  std::string_view image =
+      vars::female_images[get_random_int(0, vars::female_images.size())];
+  return image;
 }

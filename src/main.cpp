@@ -11,4 +11,5 @@ int main() {
     User u{};
     std::cout << u << '\n';
   }
+  std::cout << vars::female_images[0];
 }

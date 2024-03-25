@@ -2,7 +2,6 @@
 
 int User::id_counter = 0;
 
-
 User::User() {
 
   this->id = id_counter;
@@ -17,6 +16,7 @@ User::User() {
   this->created_at =
       rvg.get_random_date(2019, 2024, vars::account_creation_weights);
   this->email = rvg.get_random_email(this->name, this->surname);
+  this->image = gender ? rvg.get_image_male() : rvg.get_image_female();
 }
 
 std::ostream &operator<<(std::ostream &os, const User &user) {
