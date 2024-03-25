@@ -1,19 +1,17 @@
 #include "include/random_value_generator.hpp"
+#include "include/util.hpp"
+#include "include/vars.hpp"
+#include <bits/chrono.h>
+#include <chrono>
 #include <format>
+#include <iostream>
+#include <random>
 #include <string_view>
 
 std::string RandomValueGenerator::get_random_date(int start_year, int end_year,
                                                   std::vector<double> weights) {
 
   auto distributed_weights = distribute_weights(weights, end_year - start_year);
-
-  double total_weight = 0.0;
-  for (double w : weights) {
-    total_weight += w;
-  }
-  if (std::abs(total_weight - 1.0) > 1e-6) {
-    throw std::invalid_argument("Weights must sum up to 1.0");
-  }
 
   std::discrete_distribution<int> year_dist(distributed_weights.begin(),
                                             distributed_weights.end());
@@ -40,7 +38,20 @@ std::string RandomValueGenerator::get_random_date(int start_year, int end_year,
   return std::format("{:04d}-{:02d}-{:02d} {}", year, month, day, time);
 }
 
+std::string
+RandomValueGenerator::get_random_date_bound(std::string const &start,
+                                            int offset_days) {
+  auto date = util::string_to_date(start);
+  auto random_wait = std::chrono::days(get_random_int(0, offset_days));
+
+  auto sys_start = std::chrono::sys_days(date);
+  auto sys_new_date = sys_start + random_wait;
+  auto new_date = std::chrono::year_month_day(sys_new_date);
+  return util::date_to_string(new_date);
+}
+
 std::string RandomValueGenerator::get_random_time(std::vector<double> weights) {
+
   double total_weight = 0.0;
   for (double w : weights) {
     total_weight += w;
@@ -131,4 +142,51 @@ std::string_view RandomValueGenerator::get_image_female() {
   std::string_view image =
       vars::female_images[get_random_int(0, vars::female_images.size() - 1)];
   return image;
+}
+
+int RandomValueGenerator::get_weighted_random_int(int min, int max,
+                                                  std::vector<double> weights) {
+  auto normalized_weights = distribute_weights(weights, max - min);
+  int total_weight =
+      std::accumulate(normalized_weights.begin(), normalized_weights.end(), 0);
+  std::uniform_int_distribution<int> dist(0, total_weight - 1);
+  int random_weight = dist(gen);
+
+  int cumulative_weight = 0;
+  for (size_t i = 0; i < normalized_weights.size(); ++i) {
+    cumulative_weight += normalized_weights[i];
+    if (random_weight < cumulative_weight) {
+      return min + static_cast<int>(i);
+    }
+  }
+
+  return min;
+}
+
+std::string RandomValueGenerator::get_random_review(int rating) {
+  switch (rating) {
+  case 1:
+    return vars::one_star_reviews[get_random_int(
+        0, vars::one_star_reviews.size() - 1)];
+    break;
+  case 2:
+    return vars::two_star_reviews[get_random_int(
+        0, vars::two_star_reviews.size() - 1)];
+    break;
+  case 3:
+    return vars::three_star_reviews[get_random_int(
+        0, vars::three_star_reviews.size() - 1)];
+    break;
+  case 4:
+    return vars::four_star_reviews[get_random_int(
+        0, vars::four_star_reviews.size() - 1)];
+    break;
+  default:
+    return vars::five_star_reviews[get_random_int(
+        0, vars::five_star_reviews.size() - 1)];
+  }
+}
+
+std::string RandomValueGenerator::get_random_vehicle() {
+  return vars::vehicles[get_random_int(0, vars::vehicles.size() - 1)];
 }

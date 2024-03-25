@@ -1,4 +1,6 @@
 #include "include/util.hpp"
+#include <chrono>
+#include <sstream>
 
 namespace util {
 
@@ -28,6 +30,12 @@ std::string
 timepoint_to_date(const std::chrono::system_clock::time_point &timepoint) {
   const auto ymd = std::chrono::floor<std::chrono::days>(timepoint);
   return std::format("{:%Y-%m-%d}", ymd);
+}
+
+std::string date_to_string(const std::chrono::year_month_day &date) {
+  std::stringstream ss;
+  ss << date;
+  return ss.str();
 }
 
 std::chrono::system_clock::time_point
