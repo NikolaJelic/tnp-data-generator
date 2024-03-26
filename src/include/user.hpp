@@ -7,7 +7,8 @@ class User {
 public:
   User();
   friend std::ostream &operator<<(std::ostream &os, const User &user);
-
+  inline int get_id() { return id; }
+  inline std::string get_created_at() { return created_at; }
 private:
   static inline RandomValueGenerator rvg{};
 
@@ -27,4 +28,3 @@ private:
   int id{};              // primary key
   static int id_counter; // static variable used for id autoincrement
 };
-
