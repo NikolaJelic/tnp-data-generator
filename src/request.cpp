@@ -1,4 +1,5 @@
 #include "include/request.hpp"
+#include <iostream>
 
 int Request::id_counter = 0;
 

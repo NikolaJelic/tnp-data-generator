@@ -1,10 +1,10 @@
 #include "include/random_value_generator.hpp"
 #include "include/util.hpp"
 #include "include/vars.hpp"
-#include <bits/chrono.h>
 #include <chrono>
 #include <format>
 #include <iostream>
+#include <numeric>
 #include <random>
 #include <string_view>
 
@@ -147,12 +147,12 @@ std::string_view RandomValueGenerator::get_image_female() {
 int RandomValueGenerator::get_weighted_random_int(int min, int max,
                                                   std::vector<double> weights) {
   auto normalized_weights = distribute_weights(weights, max - min);
-  int total_weight =
-      std::accumulate(normalized_weights.begin(), normalized_weights.end(), 0);
-  std::uniform_int_distribution<int> dist(0, total_weight - 1);
-  int random_weight = dist(gen);
-
-  int cumulative_weight = 0;
+  double total_weight =
+      std::accumulate(normalized_weights.begin(), normalized_weights.end(), 0.0);
+  std::uniform_real_distribution<double> dist(0.0, total_weight);
+  double random_weight = dist(gen);
+  
+  double cumulative_weight = 0.0;
   for (size_t i = 0; i < normalized_weights.size(); ++i) {
     cumulative_weight += normalized_weights[i];
     if (random_weight < cumulative_weight) {
@@ -162,6 +162,7 @@ int RandomValueGenerator::get_weighted_random_int(int min, int max,
 
   return min;
 }
+
 
 std::string RandomValueGenerator::get_random_review(int rating) {
   switch (rating) {

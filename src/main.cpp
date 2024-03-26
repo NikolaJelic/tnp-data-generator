@@ -34,16 +34,16 @@ int main() {
   std::random_device rd;
   std::mt19937 g(rd());
 
-std::cout << "Generate random visits\n";
+  std::cout << "Generate random visits\n";
   // generate random visits
-  for (int i = 0; i < 600000; ++i) {
+  for (int i = 0; i < 650000; ++i) {
     all_visits.push_back({});
   }
 
-std::cout << "Generating search statistics\n";
+  std::cout << "Generating search statistics\n";
 
   // generate search statistics
-  for (int i = 0; i < 60000; ++i) {
+  for (int i = 0; i < 16000; ++i) {
     SearchedRoute sr{};
     if (std::find(all_searched_routes.begin(), all_searched_routes.end(), sr) ==
         all_searched_routes.end()) {
@@ -53,15 +53,15 @@ std::cout << "Generating search statistics\n";
   }
 
   // generate users
-std::cout << "Generating users\n";
-  for (int i = 0; i < 25000; ++i) {
+  std::cout << "Generating users\n";
+  for (int i = 0; i < 30000; ++i) {
     all_users.push_back(std::make_shared<User>());
   }
 
   // shuffle users
 
   std::shuffle(all_users.begin(), all_users.end(), g);
-std::cout << "Generate problems\n";
+  std::cout << "Generate problems\n";
   // generate problems
   int random_number{};
   for (int i = 0; i < 3000; ++i) {
@@ -71,14 +71,14 @@ std::cout << "Generate problems\n";
   }
 
   // select drivers
-std::cout << "Selecting drivers\n";
+  std::cout << "Selecting drivers\n";
   int number_of_drivers = all_users.size() * 0.4f;
   int number_of_passengers = all_users.size() * 0.8f;
   for (int i = 0; i < number_of_drivers; ++i) {
     drivers.push_back(all_users[i]);
   }
 
-  // shuffle again before selecting passengers so that ehre isn't a complete
+  // shuffle again before selecting passengers so that there isn't a complete
   // overlap with the drivers
   std::shuffle(all_users.begin(), all_users.end(), g);
 
@@ -90,7 +90,7 @@ std::cout << "Selecting drivers\n";
   for (const auto &driver : drivers) {
     all_offers.push_back({driver->get_id(), driver->get_created_at()});
   }
-std::cout << "Handling offers\n";
+  std::cout << "Handling offers\n";
 
   for (Offer &offer : all_offers) {
 
@@ -100,23 +100,22 @@ std::cout << "Handling offers\n";
       continue;
     }
 
-
-    // some seats can reamin empty
+    // some seats can remain empty
     int target_capacity = rvg.get_random_int(0, offer.get_free_seats());
     while (offer.get_taken_seats() < target_capacity) {
-      auto passenger = passengers[rvg.get_random_int(0, passengers.size() - 2)];
-      if ((util::string_to_date(passenger->get_created_at()) <=>
-               util::string_to_date(offer.get_publication_time()) >
-           0)) {
+
+      auto passenger = passengers[rvg.get_random_int(0, passengers.size() - 1)];
+      auto passenger_date = util::string_to_date(passenger->get_created_at());
+      auto offer_date = util::string_to_date(offer.get_publication_time());
+
+      if (passenger_date < offer_date) {
         Request request{passenger->get_id(), offer.get_id()};
         all_requests.push_back(request);
-        // fill seat if the offer is accepted or finished
         if (request.get_status() == static_cast<int>(State::ACCEPTED) ||
             request.get_status() == static_cast<int>(State::FINISHED)) {
           offer.fill_seat();
           // leave a review only if the offer is finished
           if (request.get_status() != static_cast<int>(State::ACCEPTED)) {
-
             all_reviews.push_back({offer.get_departure(), offer.get_id(),
                                    offer.get_driver(), passenger->get_id()});
           }
@@ -162,6 +161,5 @@ std::cout << "Handling offers\n";
     outFile << r << '\n';
   }
 
-  // Close the file
   outFile.close();
 }
