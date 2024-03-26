@@ -7,6 +7,7 @@ class User {
 public:
   User();
   friend std::ostream &operator<<(std::ostream &os, const User &user);
+  
   inline int get_id() { return id; }
   inline std::string get_created_at() { return created_at; }
 private:

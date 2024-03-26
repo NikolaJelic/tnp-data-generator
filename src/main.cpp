@@ -143,7 +143,7 @@ int main() {
   }
 
   for (auto const &u : all_users) {
-    outFile << u << '\n';
+    outFile << *u << '\n';
   }
 
   for (auto const &p : all_problems) {

@@ -16,7 +16,7 @@ std::ostream &operator<<(std::ostream &os, const Problem &problem) {
   std::ostringstream oss;
   oss << "INSERT INTO problem (id, title, content, timestamp, user_id) VALUES ("
       << problem.id << ", '" << problem.title << "', '" << problem.content
-      << "', '" << problem.timestamp << "', " << problem.user_id << "');";
+      << "', '" << problem.timestamp << "', " << problem.user_id << ");";
 
   os << oss.str();
   return os;

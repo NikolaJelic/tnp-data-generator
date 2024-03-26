@@ -21,7 +21,7 @@ std::ostream &operator<<(std::ostream &os, const Review &review) {
          "offer_id) VALUES ("
       << review.id << ", " << review.rating << ", '" << review.comment << "', '"
       << review.timestamp << "', " << review.reviewed_id << ", "
-      << review.reviewer_id << ", " << review.offer_id << "');";
+      << review.reviewer_id << ", " << review.offer_id << ");";
 
   os << oss.str();
   return os;
