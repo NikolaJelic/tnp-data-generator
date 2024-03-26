@@ -31,6 +31,12 @@ int main() {
   std::vector<std::shared_ptr<User>> drivers{};
   std::vector<std::shared_ptr<User>> passengers{};
 
+  std::vector<std::pair<int, std::string>> states{{1, "CANCELLED"},
+                                                  {2, "REJECTED"},
+                                                  {3, "PENDING"},
+                                                  {4, "FINISHED"},
+                                                  {5, "ACCEPTED"}};
+
   std::random_device rd;
   std::mt19937 g(rd());
 
@@ -159,6 +165,11 @@ int main() {
   }
   for (auto const &r : all_reviews) {
     outFile << r << '\n';
+  }
+
+  for (auto const &s : states) {
+    outFile << "INSERT INTO state(id, name) VALUES(" << s.first << ", '"
+            << s.second << "');\n";
   }
 
   outFile.close();
