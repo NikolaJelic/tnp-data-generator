@@ -20,7 +20,7 @@ User::User() {
 
 std::ostream& operator<<(std::ostream& os, const User& user) {
     std::ostringstream oss;
-    oss << "INSERT INTO user (id, name, surname, birth_date, city, email, password, phone_number, image, is_verified, created_at, gender, is_disabled) VALUES ("
+    oss << "INSERT INTO app_user (id, name, surname, birth_date, city, email, password, phone_number, image, is_verified, created_at, gender, is_disabled) VALUES ("
         << user.id << ", '" << user.name << "', '" << user.surname << "', '" << user.birth_date << "', '"
         << user.city << "', '" << user.email << "', '" << user.password << "', '" << user.phone_number << "', '"
         << user.image << "', " << user.is_verified << ", '" << user.created_at << "', " << user.gender << ", "
