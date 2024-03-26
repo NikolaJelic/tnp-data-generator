@@ -5,6 +5,7 @@ class Request {
 public:
   Request(int from_user_id, int offer_id);
   friend std::ostream &operator<<(std::ostream &os, const Request &request);
+  int get_status() { return state_id; }
 
 private:
   RandomValueGenerator rvg{};

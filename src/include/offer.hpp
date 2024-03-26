@@ -2,10 +2,19 @@
 
 #include "random_value_generator.hpp"
 #include <string>
+
 class Offer {
 public:
-  Offer(int user_id);
+  Offer(int user_id, std::string const &min_date);
   friend std::ostream &operator<<(std::ostream &os, const Offer &offer);
+  std::string get_publication_time() { return publication_date_time; }
+  int get_free_seats() { return seats - taken_seats; }
+  int get_id() { return id; }
+  inline void fill_seat() { ++taken_seats; }
+  int get_taken_seats() { return taken_seats; }
+  void cancel() { is_canceled = true; }
+  std::string get_departure() { return departure_date_time; }
+  int get_driver() { return user_id; }
 
 private:
   RandomValueGenerator rvg{};
