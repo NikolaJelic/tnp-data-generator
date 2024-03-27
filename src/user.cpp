@@ -13,19 +13,26 @@ User::User() {
   this->phone_number = rvg.get_random_phone_number();
   this->password = rvg.get_random_password();
   this->created_at =
-      rvg.get_random_date(vars::app_creation_year, vars::current_year, vars::account_creation_weights);
+      rvg.get_random_date(vars::app_creation_year, vars::current_year,
+                          vars::account_creation_weights);
   this->email = rvg.get_random_email(this->name, this->surname);
   this->image = gender ? rvg.get_image_male() : rvg.get_image_female();
+  this->is_verified = rvg.get_random_int(0, 100) < 65;
+  this->is_disabled = rvg.get_random_int(9, 100) < 5;
 }
 
-std::ostream& operator<<(std::ostream& os, const User& user) {
-    std::ostringstream oss;
-    oss << "INSERT INTO app_user (id, name, surname, birth_date, city, email, password, phone_number, image, is_verified, created_at, gender, is_disabled) VALUES ("
-        << user.id << ", '" << user.name << "', '" << user.surname << "', '" << user.birth_date << "', '"
-        << user.city << "', '" << user.email << "', '" << user.password << "', '" << user.phone_number << "', '"
-        << user.image << "', " << (user.is_verified ? "true" : "false") << ", '" << user.created_at << "', " << (user.gender ? "true" : "false") << ", "
-        << (user.is_disabled ? "true" : "false") << ");";
-    
-    os << oss.str();
-    return os;
+std::ostream &operator<<(std::ostream &os, const User &user) {
+  std::ostringstream oss;
+  oss << "INSERT INTO app_user (id, name, surname, birth_date, city, email, "
+         "password, phone_number, image, is_verified, created_at, gender, "
+         "is_disabled) VALUES ("
+      << user.id << ", '" << user.name << "', '" << user.surname << "', '"
+      << user.birth_date << "', '" << user.city << "', '" << user.email
+      << "', '" << user.password << "', '" << user.phone_number << "', '"
+      << user.image << "', " << (user.is_verified ? "true" : "false") << ", '"
+      << user.created_at << "', " << (user.gender ? "true" : "false") << ", "
+      << (user.is_disabled ? "true" : "false") << ");";
+
+  os << oss.str();
+  return os;
 }

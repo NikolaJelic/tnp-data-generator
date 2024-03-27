@@ -1,3 +1,3 @@
 #pragma once
 
-enum class State { CANCELLED, REJECTED, PENDING, FINISHED, ACCEPTED };
+enum class State { CANCELLED = 0, REJECTED, PENDING, FINISHED, ACCEPTED };
