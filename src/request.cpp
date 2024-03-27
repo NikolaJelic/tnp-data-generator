@@ -32,8 +32,8 @@ std::ostream &operator<<(std::ostream &os, const Request &request) {
   std::ostringstream oss;
   oss << "INSERT INTO request (id, accepted_by_offerer, accepted_by_submitter, state_id, "
          "from_user_id, offer_id) VALUES ("
-      << request.id << ", " << request.accepted_by_offerer << ", "
-      << request.accepted_by_submitter << ", " << request.state_id << ", "
+      << request.id << ", " << (request.accepted_by_offerer ? "true" : "false") << ", "
+      <<( request.accepted_by_submitter ? "true" : "false") << ", " << request.state_id << ", "
       << request.from_user_id << ", " << request.offer_id << ");";
 
   os << oss.str();

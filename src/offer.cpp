@@ -18,15 +18,15 @@ Offer::Offer(int user_id, std::string const &min_date) {
 
 std::ostream &operator<<(std::ostream &os, const Offer &offer) {
   std::ostringstream oss;
-  oss << "INSERT INTO offer (id, start, end, price, seats, taken_seats, "
+  oss << "INSERT INTO offer (id, \"start\", \"end\", price, seats, taken_seats, "
          "vehicle, description, "
-      << "publication_date_time, departure_date_time, is_canceled, user_id) "
+      << "publication_date_time, departure_date_time, is_canceled, user_id, encoded_path) "
          "VALUES ("
       << offer.id << ", '" << offer.start << "', '" << offer.end << "', "
       << offer.price << ", " << offer.seats << ", " << offer.taken_seats
       << ", '" << offer.vehicle << "', '" << offer.description << "', '"
       << offer.publication_date_time << "', '" << offer.departure_date_time
-      << "', " << offer.is_canceled << ", " << offer.user_id << ");";
+      << "', " << (offer.is_canceled ? "true" : "false") << ", " << offer.user_id << ", '');";
 
   os << oss.str();
   return os;

@@ -40,16 +40,21 @@ int main() {
   std::random_device rd;
   std::mt19937 g(rd());
 
+  int user_count = 2000;
+  int visit_count = 30 * user_count * (vars::current_year - vars::app_creation_year);
+  int search_count = visit_count * 3;
+  int problem_count = user_count / 50;
+
   std::cout << "Generate random visits\n";
   // generate random visits
-  for (int i = 0; i < 650000; ++i) {
+  for (int i = 0; i < visit_count; ++i) {
     all_visits.push_back({});
   }
 
   std::cout << "Generating search statistics\n";
 
   // generate search statistics
-  for (int i = 0; i < 16000; ++i) {
+  for (int i = 0; i < search_count; ++i) {
     SearchedRoute sr{};
     if (std::find(all_searched_routes.begin(), all_searched_routes.end(), sr) ==
         all_searched_routes.end()) {
@@ -60,7 +65,7 @@ int main() {
 
   // generate users
   std::cout << "Generating users\n";
-  for (int i = 0; i < 30000; ++i) {
+  for (int i = 0; i < user_count; ++i) {
     all_users.push_back(std::make_shared<User>());
   }
 
@@ -70,7 +75,7 @@ int main() {
   std::cout << "Generate problems\n";
   // generate problems
   int random_number{};
-  for (int i = 0; i < 3000; ++i) {
+  for (int i = 0; i < problem_count; ++i) {
     random_number = rvg.get_random_int(0, all_users.size() - 1);
     all_problems.push_back({all_users[random_number]->get_id(),
                             all_users[random_number]->get_created_at()});
@@ -131,11 +136,16 @@ int main() {
   }
   // print all values
   std::cout << "Writing to file started\n";
-  std::ofstream outFile("output.txt");
+  std::ofstream outFile("output.sql");
 
   if (!outFile.is_open()) {
     std::cerr << "Failed to open the file for writing." << std::endl;
     return 1;
+  }
+
+  for (auto const &s : states) {
+    outFile << "INSERT INTO state(id, name) VALUES(" << s.first << ", '"
+            << s.second << "');\n";
   }
 
   for (auto const &v : all_visits) {
@@ -167,10 +177,7 @@ int main() {
     outFile << r << '\n';
   }
 
-  for (auto const &s : states) {
-    outFile << "INSERT INTO state(id, name) VALUES(" << s.first << ", '"
-            << s.second << "');\n";
-  }
+
 
   outFile.close();
 }

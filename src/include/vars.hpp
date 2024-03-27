@@ -6,6 +6,8 @@
 namespace vars {
 
 const double male_probability = 6;
+const int app_creation_year = 2022;
+const int current_year = 2024;
 
 const std::vector<std::string> vehicles = {"Toyota Yaris",
                                            "Toyota Corolla",
@@ -161,17 +163,17 @@ const std::vector<std::string> two_star_reviews = {
     "The driver was polite but the ride took much longer than expected due to "
     "traffic.",
     "The app was glitchy and I had trouble booking a ride. Needs improvement.",
-    "The driver didn't follow the designated route and it ended up costing me "
+    "The driver did not follow the designated route and it ended up costing me "
     "more.",
 };
 const std::vector<std::string> three_star_reviews = {
     "Decent ride overall. The driver was friendly but the car smelled a bit "
     "funky.",
-    "The ride was fine but the driver didn't seem very familiar with the area.",
+    "The ride was fine but the driver did not seem very familiar with the area.",
     "The driver arrived promptly but the car was cramped and uncomfortable.",
     "The app is easy to use but the prices are a bit high compared to "
     "competitors.",
-    "The ride was smooth but the driver didn't provide any amenities like "
+    "The ride was smooth but the driver did not provide any amenities like "
     "water or chargers.",
 };
 const std::vector<std::string> four_star_reviews = {
@@ -185,9 +187,9 @@ const std::vector<std::string> four_star_reviews = {
 const std::vector<std::string> five_star_reviews = {
     "Fantastic ride! The driver was excellent and the car was top-notch.",
     "Absolutely amazing service! Will definitely be using this app again.",
-    "The best ride I've ever had! The driver was friendly and went above and "
+    "The best ride I have ever had! The driver was friendly and went above and "
     "beyond.",
-    "Smooth ride from start to finish. Couldn't ask for better service!",
+    "Smooth ride from start to finish. Could not ask for better service!",
     "Outstanding experience! The driver was courteous and the car was "
     "spotless.",
 };
@@ -203,9 +205,9 @@ const std::vector<double> year_weights = {0.02, 0.04, 0.04, 0.03, 0.06,
                                           0.06, 0.09, 0.22, 0.25, 0.19};
 
 const std::vector<double> hour_weights = {
-    0.05, 0.04, 0.02, 0.02, 0.01, 0.01, 0,    0.03, 0.03,
-    0.04, 0.04, 0.06, 0.06, 0.07, 0.06, 0.04, 0.06, 0.03,
-    0.04, 0.05, 0.06, 0.05, 0.04, 0.04, 0.05};
+    0.05, 0.04, 0.02, 0.02, 0.01, 0.01, 0.02,    0.03, 0.03,
+    0.04, 0.04, 0.06, 0.07, 0.08, 0.06, 0.05, 0.06, 0.03,
+    0.04, 0.05, 0.06, 0.05, 0.04, 0.04};
 const std::vector<std::string> male_names = {
     "Milan",     "Dragan",       "Marko",    "Davor",    "Ivan",
     "Mirko",     "Ilija",        "Ibrahim",  "Zoran",    "Mustafa",

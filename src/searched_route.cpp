@@ -10,7 +10,7 @@ SearchedRoute::SearchedRoute() {
 
 std::ostream &operator<<(std::ostream &os, const SearchedRoute &searchedRoute) {
   std::ostringstream oss;
-  oss << "INSERT INTO searched_route (id, start, end) VALUES ("
+  oss << "INSERT INTO searched_route (id, \"start\", \"end\") VALUES ("
       << searchedRoute.id << ", '" << searchedRoute.start << "', '"
       << searchedRoute.end << "');";
 

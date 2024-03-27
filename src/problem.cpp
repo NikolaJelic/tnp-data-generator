@@ -8,7 +8,7 @@ Problem::Problem(int user_id, std::string user_creation_date) {
   this->content = "I have a with a bug in your app";
   this->title = "Problem with app";
   this->id = Problem::id_counter++;
-  this->timestamp = rvg.get_random_date_bound(user_creation_date, 500) +
+  this->timestamp = rvg.get_random_date_bound(user_creation_date, 500) + " " +
                     rvg.get_random_time(vars::hour_weights);
 }
 
