@@ -18,7 +18,7 @@ Offer::Offer(int user_id, std::string const &min_date) {
 
 std::ostream &operator<<(std::ostream &os, const Offer &offer) {
   std::ostringstream oss;
-  oss << "INSERT INTO offer (id, \"start\", \"end\", price, seats, taken_seats, "
+  oss << "INSERT INTO offer (id, \"start\", destination, price, seats, taken_seats, "
          "vehicle, description, "
       << "publication_date_time, departure_date_time, is_canceled, user_id, encoded_path) "
          "VALUES ("
