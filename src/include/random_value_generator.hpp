@@ -17,7 +17,8 @@ public:
   std::string get_random_date(int start_year, int end_year,
                               std::vector<double> weights);
   std::string get_random_date_bound(std::string const &start, int offset_days);
-
+  std::string get_random_date_bound_from_now(std::string const &start, int offset_days);
+  
   std::vector<double> distribute_weights(std::vector<double> weights,
                                          int result_count);
   int get_random_int(int min, int max);

@@ -4,7 +4,7 @@ int Offer::id_counter = 0;
 Offer::Offer(int user_id, std::string const &min_date) {
   this->user_id = user_id;
   this->id = Offer::id_counter++;
-  this->publication_date_time = rvg.get_random_date_bound(min_date, 1000);
+  this->publication_date_time = rvg.get_random_date_bound_from_now(min_date, 60);
   this->departure_date_time =
       rvg.get_random_date_bound(publication_date_time, 20);
   this->seats = rvg.get_random_int(2, 4);

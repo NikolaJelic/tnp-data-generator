@@ -50,6 +50,34 @@ RandomValueGenerator::get_random_date_bound(std::string const &start,
   return util::date_to_string(new_date);
 }
 
+std::string
+RandomValueGenerator::get_random_date_bound_from_now(std::string const &start, int offset_days) {
+    // Convert start date to year_month_day
+    auto date = util::string_to_date(start);
+
+    // Get current date
+    auto now = std::chrono::system_clock::now();
+    auto now_days = std::chrono::floor<std::chrono::days>(now);
+
+    // Calculate the maximum offset date
+    auto max_offset_date = now_days + std::chrono::days(offset_days);
+
+    // Generate a random number of days between 0 and offset_days
+    auto random_wait = std::chrono::days(get_random_int(0, offset_days));
+
+    // Calculate the new random date
+    auto sys_new_date = std::chrono::sys_days(date) + random_wait;
+
+    // Ensure the new date does not exceed the maximum offset date
+    sys_new_date = std::min(sys_new_date, max_offset_date);
+
+    // Convert the new date to year_month_day
+    auto new_date = std::chrono::year_month_day(sys_new_date);
+
+    // Convert and return the new date as a string
+    return util::date_to_string(new_date);
+}
+
 std::string RandomValueGenerator::get_random_time(std::vector<double> weights) {
 
   double total_weight = 0.0;
@@ -121,7 +149,7 @@ std::string RandomValueGenerator::get_random_password() {
 }
 
 std::string RandomValueGenerator::get_random_city() {
-  return vars::cities[get_random_int(0, vars::cities.size() - 1)];
+  return vars::cities[get_weighted_random_int(0, vars::cities.size() - 1, vars::city_weights)];
 }
 
 std::string RandomValueGenerator::get_random_phone_number() {

@@ -16,7 +16,7 @@ User::User() {
       rvg.get_random_date(vars::app_creation_year, vars::current_year,
                           vars::account_creation_weights);
   this->email = rvg.get_random_email(this->name, this->surname);
-  this->image = gender ? rvg.get_image_male() : rvg.get_image_female();
+  this->image = "";
   this->is_verified = rvg.get_random_int(0, 100) < 65;
   this->is_disabled = rvg.get_random_int(9, 100) < 5;
 }

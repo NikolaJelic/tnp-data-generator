@@ -299,8 +299,8 @@ const std::vector<std::string> female_names = {
 
 };
 
-const std::vector<double> city_weights = {0.190, 0.155, 0.120, 0.095, 0.085,
-                                          0.080, 0.070, 0.050, 0.040, 0.035,
+const std::vector<double> city_weights = {0.35, 0.110, 0.100, 0.075, 0.065,
+                                          0.060, 0.050, 0.045, 0.035, 0.03,
                                           0.020, 0.025, 0.020, 0.015};
 const std::vector<std::string> cities = {"Sarajevo",
                                          "Banja Luka",

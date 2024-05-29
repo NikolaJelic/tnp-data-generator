@@ -32,15 +32,15 @@ int main() {
   std::vector<std::shared_ptr<User>> passengers{};
 
   std::vector<std::pair<int, std::string>> states{{0, "CANCELLED"},
-                                                  {2, "REJECTED"},
-                                                  {3, "PENDING"},
-                                                  {4, "FINISHED"},
+                                                  {1, "REJECTED"},
+                                                  {2, "PENDING"},
+                                                  {3, "FINISHED"},
                                                   {4, "ACCEPTED"}};
 
   std::random_device rd;
   std::mt19937 g(rd());
 
-  int user_count = 2000;
+  int user_count = 10000;
   int visit_count = 30 * user_count * (vars::current_year - vars::app_creation_year);
   int search_count = visit_count * 3;
   int problem_count = user_count / 50;
@@ -177,7 +177,7 @@ int main() {
     outFile << r << '\n';
   }
 
-
+  outFile << "SELECT setval('user_id_seq', "<< user_count+1 << ");" << '\n';
 
   outFile.close();
 }
