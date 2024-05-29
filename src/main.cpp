@@ -11,11 +11,11 @@
 #include "include/vars.hpp"
 #include "include/visit.hpp"
 #include <algorithm>
-#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <vector>
+
 
 int main() {
   RandomValueGenerator rvg{};
@@ -31,16 +31,16 @@ int main() {
   std::vector<std::shared_ptr<User>> drivers{};
   std::vector<std::shared_ptr<User>> passengers{};
 
-  std::vector<std::pair<int, std::string>> states{{0, "CANCELLED"},
-                                                  {1, "REJECTED"},
-                                                  {2, "PENDING"},
-                                                  {3, "FINISHED"},
-                                                  {4, "ACCEPTED"}};
+  std::vector<std::pair<int, std::string>> states{{1, "CANCELLED"},
+                                                  {2, "REJECTED"},
+                                                  {3, "PENDING"},
+                                                  {4, "FINISHED"},
+                                                  {5, "ACCEPTED"}};
 
   std::random_device rd;
   std::mt19937 g(rd());
 
-  int user_count = 10000;
+  int user_count = 1000;
   int visit_count = 30 * user_count * (vars::current_year - vars::app_creation_year);
   int search_count = visit_count * 3;
   int problem_count = user_count / 50;
@@ -112,7 +112,7 @@ int main() {
     }
 
     // some seats can remain empty
-    int target_capacity = rvg.get_random_int(0, offer.get_free_seats());
+    int target_capacity = rvg.get_weighted_random_int(1, offer.get_free_seats(), {0.2, 0.25, 0.25, 0.3});
     while (offer.get_taken_seats() < target_capacity) {
 
       auto passenger = passengers[rvg.get_random_int(0, passengers.size() - 1)];
@@ -128,7 +128,7 @@ int main() {
           // leave a review only if the offer is finished
           if (request.get_status() != static_cast<int>(State::ACCEPTED)) {
             all_reviews.push_back({offer.get_departure(), offer.get_id(),
-                                   offer.get_driver(), passenger->get_id()});
+                                   offer.get_driver(), passenger->get_id(), passenger->get_age()});
           }
         }
       }
@@ -181,3 +181,8 @@ int main() {
 
   outFile.close();
 }
+
+
+
+
+

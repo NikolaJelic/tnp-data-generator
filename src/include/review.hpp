@@ -5,7 +5,7 @@
 class Review {
 public:
   Review(std::string const &ride_date, int offer_id, int reviewed_id,
-         int reviewer_id);
+         int reviewer_id, std::string reviewer_age);
   friend std::ostream &operator<<(std::ostream &os, const Review &review);
 
 private:

@@ -169,7 +169,8 @@ const std::vector<std::string> two_star_reviews = {
 const std::vector<std::string> three_star_reviews = {
     "Decent ride overall. The driver was friendly but the car smelled a bit "
     "funky.",
-    "The ride was fine but the driver did not seem very familiar with the area.",
+    "The ride was fine but the driver did not seem very familiar with the "
+    "area.",
     "The driver arrived promptly but the car was cramped and uncomfortable.",
     "The app is easy to use but the prices are a bit high compared to "
     "competitors.",
@@ -205,9 +206,8 @@ const std::vector<double> year_weights = {0.02, 0.04, 0.04, 0.03, 0.06,
                                           0.06, 0.09, 0.22, 0.25, 0.19};
 
 const std::vector<double> hour_weights = {
-    0.05, 0.04, 0.02, 0.02, 0.01, 0.01, 0.02,    0.03, 0.03,
-    0.04, 0.04, 0.06, 0.07, 0.08, 0.06, 0.05, 0.06, 0.03,
-    0.04, 0.05, 0.06, 0.05, 0.04, 0.04};
+    0.05, 0.04, 0.02, 0.02, 0.01, 0.01, 0.02, 0.03, 0.03, 0.04, 0.04, 0.06,
+    0.07, 0.08, 0.06, 0.05, 0.06, 0.03, 0.04, 0.05, 0.06, 0.05, 0.04, 0.04};
 const std::vector<std::string> male_names = {
     "Milan",     "Dragan",       "Marko",    "Davor",    "Ivan",
     "Mirko",     "Ilija",        "Ibrahim",  "Zoran",    "Mustafa",
@@ -299,9 +299,9 @@ const std::vector<std::string> female_names = {
 
 };
 
-const std::vector<double> city_weights = {0.35, 0.110, 0.100, 0.075, 0.065,
-                                          0.060, 0.050, 0.045, 0.035, 0.03,
-                                          0.020, 0.025, 0.020, 0.015};
+const std::vector<double> city_weights = {0.420, 0.130, 0.090, 0.080, 0.075,
+                                          0.070, 0.050, 0.040, 0.020, 0.010,
+                                          0.005, 0.003, 0.005, 0.002};
 const std::vector<std::string> cities = {"Sarajevo",
                                          "Banja Luka",
                                          "Novi Grad (Sarajevo)",

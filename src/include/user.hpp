@@ -7,9 +7,11 @@ class User {
 public:
   User();
   friend std::ostream &operator<<(std::ostream &os, const User &user);
-  
+
   inline int get_id() { return id; }
   inline std::string get_created_at() { return created_at; }
+  inline std::string get_age() { return birth_date; }
+
 private:
   static inline RandomValueGenerator rvg{};
 
